@@ -75,8 +75,8 @@ if (root == nullptr) {
 		}
 		count_rec++;
 		print(node->right);
-		for (int i = 0; i < count_rec; i++)  cout << "   ";
-		cout << "--"<<node->data<<endl;
+		for (int i = 0; i < count_rec; i++)  cout << "  ";
+		cout << "-- "<<node->data<<endl;
 		print(node->left);
 		count_rec--;
 		return;

@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include "tree.h"
 using namespace std;
@@ -30,37 +31,9 @@ bool Tree::remove(int val) {
 bool Tree::find(int val) {
 	return 0;
 }
-bool Tree::insert(int val) {
-	Node *p = root;
-	if (p == nullptr) {
-		root = new Node{ val };
-		return true;
-	}
-	else {
-		while (p != nullptr) {
-			if (val == p->data) {
-				return false;
-			}
-			if (val < p->data && p->left != nullptr) {
-				p = p->left;
-			}
-			if (val < p->data && p->left == nullptr) {
-				p->left = new Node{ val };
-				return true;
-			}
-			if (val > p->data && p->right != nullptr) {
-				p = p->right;
-			}
-			if (val > p->data && p->right == nullptr) {
-				p->right = new Node{ val };
-				return true;
-			}
-		}
-	}
-}
 
 void Tree::print(Node *node) {
-if (root == nullptr) {
+	if (root == nullptr) {
 		cout << "Дерево пусто!" << endl;
 	}
 	if (node != nullptr) {
@@ -75,11 +48,31 @@ if (root == nullptr) {
 		}
 		count_rec++;
 		print(node->right);
-		for (int i = 0; i < count_rec; i++)  cout << "  ";
-		cout << "-- "<<node->data<<endl;
+		for (int i = 0; i < count_rec; i++)  cout << "   ";
+		cout << "- "<<node->data<<endl;
 		print(node->left);
 		count_rec--;
 		return;
 	}
 }
 
+bool Tree::insert(int val) {
+	Node *p = root;
+	while (p != nullptr) {
+		if (p->data != val) {
+			if (val > p->data && p->right == nullptr) {
+				p->right= new Node{ val };
+				return true;
+			}
+			if (val < p->data && p->left == nullptr) {
+				p->left = new Node{ val };
+				return true;
+			}
+			val > p->data ? p = p->right : p = p->left;
+			continue;
+		}
+		return false;
+	}
+	root = new Node{ val };
+	return true;
+}

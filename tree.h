@@ -22,8 +22,13 @@ public:
 	bool remove(int val);
 	bool find(int val);
 	bool insert(int val);
-
 	void print(Node *node);
+
+	enum bypass 
+	{
+		direct='a',
+		cross='b',
+		opposite='c'
+	};
 };
 #endif
-

@@ -1,1 +1,3 @@
 language: cpp
+script: 
+- g++ source/*.cpp include/tree.h

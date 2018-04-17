@@ -4,11 +4,6 @@
 using namespace std;
 using namespace BSTree;
 
-namespace BStree
-{
-	
-}
-
 Node::Node(int val) : left(nullptr), right(nullptr) {
 	data = val;
 }

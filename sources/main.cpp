@@ -2,14 +2,16 @@
 #include <windows.h>
 #include <iostream>
 #include <string>
+#include <limits>
 #include "tree.h"
 using namespace std;
+using namespace BSTree;
 
 void menu();
 void direct_bypass(Node *);
 void cross_bypass(Node *);
 void opposite_bypass(Node *);
-int dlina_number(int);
+void correct_input(int &);
 
 int main(int argc, char* argv[])
 {
@@ -29,9 +31,9 @@ int main(int argc, char* argv[])
 	while (!exit) 
 	{
 		menu();
-		char choose[10]{};
-		cin >> choose;
-		switch (atoi(choose))
+		int choose;
+		correct_input(choose);
+		switch (choose)
 		{
 		case 1:
 			tree.print(tree.get_root());
@@ -73,18 +75,10 @@ int main(int argc, char* argv[])
 		break;
 		case 3:
 		{
-			bool correct = false;
-			char node_value[10]{};
-			while (!correct) {
-				cout << "Введите значение для нового узла: ";
-				cin >> node_value;
-				if (dlina_number(atoi(node_value)) != strlen(node_value)) {
-					cout << "Неправильный ввод данных" << endl;
-				}
-				else
-				correct = true;
-			}
-			if (!tree.insert(atoi(node_value))) {
+			int node_value; // cin.fail() cin.b()
+			cout << "Введите значение для нового узла: ";
+			correct_input(node_value);
+			if (!tree.insert(node_value)) {
 				cout << "Узел уже существует" << endl;
 			}
 			break;
@@ -144,7 +138,7 @@ void menu()
 	cout << "8. Завершить работу программы" << endl;
 }
 
-void direct_bypass(Node *node) {
+void direct_bypass(Node *node) { // сделать закрытыми методами
 	if (node != nullptr) {
 		cout << node->data << "|";
 		direct_bypass(node->left);
@@ -168,14 +162,16 @@ void opposite_bypass(Node *node) {
 	}
 }
 
-int dlina_number(int num) {
-	int count = 0, num_copy = num;
-	while (num != 0) {
-		num /= 10;
-		count++;
-	}
-	if (num_copy < 0 || count == 0) {
-		return ++count;
-	}
-	return count;
+void correct_input(int &choose) {
+	bool good = true;
+	do {
+		cin >> choose;
+		if (!(good = cin.good())) {
+			cout << "Неправильный ввод данных. Попробуйте еще раз" << endl;
+			}
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	} while (!good);
 }
+
+

@@ -33,7 +33,7 @@ bool Tree::find(int val) {
 	return 0;
 }
 
-void Tree::print(Node *node) {
+void Tree::print(Node *node) { // метод без параметров
 	if (root == nullptr) {
 		cout << "Дерево пусто!" << endl;
 	}

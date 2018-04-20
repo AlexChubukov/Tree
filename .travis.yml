@@ -1,34 +1,53 @@
-dist:     trusty
-sudo:     required 
-
-language: cpp      
-                  
-
-os:
-    - linux
-    - osx
-
-compiler:
-    - gcc
-    - clang
-
-env:
-    - TARGET_CPU=amd64 BUILD_CONFIGURATION=Debug
-    - TARGET_CPU=amd64 BUILD_CONFIGURATION=Release
-    - TARGET_CPU=x86 BUILD_CONFIGURATION=Debug
-    - TARGET_CPU=x86 BUILD_CONFIGURATION=Release
+language: cpp
+sudo: false
 
 matrix:
-    exclude:
-        - os:       osx
-          compiler: gcc
+  include:
+    - os: linux
+      compiler: gcc
+      addons: &gcc7
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-7']
+      env: CXX_EVAL="g++-7" CC_EVAL="gcc-7" BUILD_TYPE='Release'
 
-        - os:  osx
-          env: TARGET_CPU=x86 BUILD_CONFIGURATION=Debug
+    - os: linux
+      compiler: gcc
+      addons: *gcc7
+      env: CXX_EVAL="g++-7" CC_EVAL="gcc-7" BUILD_TYPE='Debug'
 
-        - os:  osx
-          env: TARGET_CPU=x86 BUILD_CONFIGURATION=Release
+    - os: linux
+      compiler: clang
+      env: BUILD_TYPE='Release' CXX_EVAL="clang++-5.0" CC_EVAL="clang-5.0"
+      addons:
+        apt:
+          sources:
+            - sourceline: 'deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-5.0 main' 
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+            - ubuntu-toolchain-r-test
+          packages: ['clang-5.0']
 
+    - os: linux
+      compiler: clang
+      env: BUILD_TYPE='Debug' CXX_EVAL="clang++-5.0" CC_EVAL="clang-5.0"
+      addons:
+        apt:
+          sources:
+            - sourceline: 'deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-5.0 main' 
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+            - ubuntu-toolchain-r-test
+          packages: ['clang-5.0']
+          
+    - os: osx
+      osx_image: xcode8.3
+      compiler: clang
+      env: CXX_EVAL="clang++" CC_EVAL="clang" BUILD_TYPE='Debug'
+
+    - os: osx
+      osx_image: xcode8.3
+      compiler: clang
+      env: CXX_EVAL="clang++" CC_EVAL="clang" BUILD_TYPE='Release'
+      
 script:
 - cmake -H. -B_build
 - cmake --build _build
@@ -40,4 +59,3 @@ addons:
     packages:
       - cmake
       - cmake-data
-

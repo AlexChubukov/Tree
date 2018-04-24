@@ -1,4 +1,4 @@
-#include "stdafx.h"
+
 #ifndef tree_h
 #define tree_h
 

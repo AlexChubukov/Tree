@@ -1,18 +1,17 @@
-#ifdef WIN32
+// tree.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
 #include <windows.h>
-#endif
 #include <iostream>
 #include <string>
-#include <limits>
+#include <limits> // ввод через int
 #include "tree.h"
 using namespace std;
 using namespace BSTree;
 
 void menu();
-void direct_bypass(Node *);
-void cross_bypass(Node *);
-void opposite_bypass(Node *);
-void correct_input(int &);
+void correct_input(int &choose);
 
 int main(int argc, char* argv[])
 {
@@ -37,7 +36,7 @@ int main(int argc, char* argv[])
 		switch (choose)
 		{
 		case 1:
-			tree.print(tree.get_root());
+			tree.print();
 			break;
 		case 2:
 		{
@@ -46,37 +45,20 @@ int main(int argc, char* argv[])
 				break;
 			}
 			bool is_correct = false;
-
 			while (!is_correct) {
+				is_correct = true;
 				cout << "a. Прямой обход" << endl;
 				cout << "b. Поперечный обход" << endl;
 				cout << "c. Обратный обход " << endl;
-				char temp=0; 
+				char temp = 0;
 				cin >> temp;
-				switch (temp)
-				{
-				case Tree::direct:
-					direct_bypass(tree.get_root());
-					is_correct = true;
-					break;
-				case Tree::cross:
-					cross_bypass(tree.get_root());
-					is_correct = true;
-					break;
-				case Tree::opposite:
-					opposite_bypass(tree.get_root());
-					is_correct = true;
-					break;
-				default:
-					cout << "Неправильный ввод данных" << endl;
-					break;
-				}
+				is_correct = tree.print((traversal_order)temp);
 			}
 		}
 		break;
 		case 3:
 		{
-			int node_value; // cin.fail() cin.b()
+			int node_value;
 			cout << "Введите значение для нового узла: ";
 			correct_input(node_value);
 			if (!tree.insert(node_value)) {
@@ -84,7 +66,7 @@ int main(int argc, char* argv[])
 			}
 			break;
 		}
-			
+
 		case 4:
 			break;
 		case 5:
@@ -139,40 +121,14 @@ void menu()
 	cout << "8. Завершить работу программы" << endl;
 }
 
-void direct_bypass(Node *node) { // сделать закрытыми методами
-	if (node != nullptr) {
-		cout << node->data << "|";
-		direct_bypass(node->left);
-		direct_bypass(node->right);
-	}
-}
-
-void cross_bypass(Node *node) {
-	if (node != nullptr) {
-		cross_bypass(node->left);
-		cout << node->data << "|";
-		cross_bypass(node->right);
-	}
-}
-
-void opposite_bypass(Node *node) {
-	if (node != 0) {
-		opposite_bypass(node->left);
-		opposite_bypass(node->right);
-		cout << node->data << "|";
-	}
-}
-
 void correct_input(int &choose) {
 	bool good = true;
 	do {
 		cin >> choose;
 		if (!(good = cin.good())) {
 			cout << "Неправильный ввод данных. Попробуйте еще раз" << endl;
-			}
+		}
 		cin.clear();
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	} while (!good);
 }
-
-

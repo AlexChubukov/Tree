@@ -1,4 +1,4 @@
-
+#include "stdafx.h"
 #include <iostream>
 #include "tree.h"
 using namespace std;
@@ -33,7 +33,54 @@ bool Tree::find(int val) {
 	return 0;
 }
 
-void Tree::print(Node *node) { // метод без параметров
+void Tree::direct_bypass(Node *node) const{
+	if (node != nullptr) {
+		cout << node->data << "|";
+		direct_bypass(node->left);
+		direct_bypass(node->right);
+	}
+}
+void Tree::cross_bypass(Node *node) const{
+	if (node != nullptr) {
+		cross_bypass(node->left);
+		cout << node->data << "|";
+		cross_bypass(node->right);
+	}
+}
+void Tree::opposite_bypass(Node *node) const{
+	if (node != nullptr) {
+		opposite_bypass(node->left);
+		opposite_bypass(node->right);
+		cout << node->data << "|";
+	}
+}
+
+
+bool Tree::print(traversal_order order) const{
+	switch (order)
+	{
+	case direct:
+		direct_bypass(root);
+		break;
+	case cross:
+		cross_bypass(root);
+		break;
+	case opposite:
+		opposite_bypass(root);
+		break;
+	default:
+		cout << "Неправильный ввод данных" << endl;
+		return false;
+		break;
+	}
+	return true;
+}
+
+void Tree::print() {
+	print(root);
+}
+
+void Tree::print(Node *node) const{
 	if (root == nullptr) {
 		cout << "Дерево пусто!" << endl;
 	}
@@ -50,7 +97,7 @@ void Tree::print(Node *node) { // метод без параметров
 		count_rec++;
 		print(node->right);
 		for (int i = 0; i < count_rec; i++)  cout << "   ";
-		cout << "- "<<node->data<<endl;
+		cout << "- " << node->data << endl;
 		print(node->left);
 		count_rec--;
 		return;
@@ -62,7 +109,7 @@ bool Tree::insert(int val) {
 	while (p != nullptr) {
 		if (p->data != val) {
 			if (val > p->data && p->right == nullptr) {
-				p->right= new Node{ val };
+				p->right = new Node{ val };
 				return true;
 			}
 			if (val < p->data && p->left == nullptr) {

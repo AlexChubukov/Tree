@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.0)
 set(PROJECT_NAME BSTree)
 project(${PROJECT_NAME})
+
+option(BUILD_TESTS "Build tests" OFF)
+option(BUILD_EXAMPLES "Build Examples" OFF)
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_definitions(-Wall -std=c++11)
 set(main ${CMAKE_CURRENT_SOURCE_DIR}/sources/main.cpp)

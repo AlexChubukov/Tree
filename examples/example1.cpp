@@ -37,46 +37,11 @@ int main(int argc, char* argv[])
 			tree.print();
 			break;
 		case 2:
-		{
-			if (tree.get_root() == nullptr) {
-				cout << "Дерево пусто" << endl;
-				break;
-			}
-			bool is_correct = false;
-			while (!is_correct) {
-				is_correct = true;
-				cout << "a. Прямой обход" << endl;
-				cout << "b. Поперечный обход" << endl;
-				cout << "c. Обратный обход " << endl;
-				char temp = 0;
-				cin >> temp;
-				is_correct = tree.print((traversal_order)temp);
-			}
-		}
-		break;
-		case 3:
-		{
-			int node_value;
-			cout << "Введите значение для нового узла: ";
-			correct_input(node_value);
-			if (!tree.insert(node_value)) {
-				cout << "Узел уже существует" << endl;
-			}
 			break;
-		}
-		break;
+		case 3:
+			break;
 		case 4:
-		{
-			cout << "Введие значение для нового узла: ";
-			int new_node;
-			correct_input(new_node);
-			if (tree.remove(new_node)) {
-				cout << "Узел был успешно удален из дерева" << endl;
-				break;
-			}
-			cout << "Узел не был найден в дереве" << endl;
-		}
-		break;
+			break;
 		case 5:
 			break;
 		case 6:

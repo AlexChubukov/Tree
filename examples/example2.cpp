@@ -55,28 +55,9 @@ int main(int argc, char* argv[])
 		}
 		break;
 		case 3:
-		{
-			int node_value;
-			cout << "Введите значение для нового узла: ";
-			correct_input(node_value);
-			if (!tree.insert(node_value)) {
-				cout << "Узел уже существует" << endl;
-			}
 			break;
-		}
-		break;
 		case 4:
-		{
-			cout << "Введие значение для нового узла: ";
-			int new_node;
-			correct_input(new_node);
-			if (tree.remove(new_node)) {
-				cout << "Узел был успешно удален из дерева" << endl;
-				break;
-			}
-			cout << "Узел не был найден в дереве" << endl;
-		}
-		break;
+			break;
 		case 5:
 			break;
 		case 6:

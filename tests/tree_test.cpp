@@ -1,7 +1,7 @@
 #include <catch.hpp>
 #include <sstream>
 #include "tree.h"
-using namesapce BSTree;
+using namespace BSTree;
 
 TEST_CASE("insert")
 {

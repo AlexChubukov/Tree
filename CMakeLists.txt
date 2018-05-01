@@ -1,16 +1,23 @@
-cmake_minimum_required(VERSION 3.0)
-set(PROJECT_NAME BSTree)
-project(${PROJECT_NAME})
+cmake_minimum_required(VERSION 3.3)
+
+include("cmake/HunterGate.cmake")
+HunterGate(
+    URL "https://github.com/ruslo/hunter/archive/v0.19.123.tar.gz"
+    SHA1 "57d07480686f82ddc916a5980b4f2a18e5954c2b"
+)
+
+project(BSTree)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 option(BUILD_TESTS "Build tests" OFF)
 option(BUILD_EXAMPLES "Build Examples" OFF)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
-add_definitions(-Wall -std=c++11)
-set(main ${CMAKE_CURRENT_SOURCE_DIR}/sources/main.cpp)
-set(tree ${CMAKE_CURRENT_SOURCE_DIR}/sources/tree.cpp)
-add_executable(${PROJECT_NAME} ${main} ${tree})
-target_link_libraries(${PROJECT_NAME})
+set(${PROJECT_NAME}_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/sources/queue.cpp")
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/)
+
+add_library(${PROJECT_NAME} ${${PROJECT_NAME}_SOURCES})
 
 if(BUILD_TESTS)
   hunter_add_package(Catch)
@@ -22,5 +29,19 @@ if(BUILD_TESTS)
   add_executable(tests ${${PROJECT_NAME}_TEST_SOURCES})
   target_link_libraries(tests ${PROJECT_NAME} Catch::Catch )
 
-  add_test(NAME test_name COMMAND tests "-s" "-r" "compact" "--use-colour" "yes") 
+  add_test(NAME test_name COMMAND tests "-s" "-r" "compact" "--use-colour" "yes")
+endif()
+
+if(BUILD_EXAMPLES)
+    file(GLOB EXAMPLE_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/main/*.cpp")
+    foreach(EXAMPLE_SOURCE ${EXAMPLE_SOURCES})
+        get_filename_component(EXAMPLE_NAME ${EXAMPLE_SOURCE} NAME_WE)
+        set(EXAMPLE_TARGET_NAME example_${EXAMPLE_NAME})
+        add_executable(${EXAMPLE_TARGET_NAME} ${EXAMPLE_SOURCE})
+        target_link_libraries(${EXAMPLE_TARGET_NAME} ${PROJECT_NAME})
+        set_target_properties(${EXAMPLE_TARGET_NAME} PROPERTIES OUTPUT_NAME ${EXAMPLE_NAME})
+        install(TARGETS ${EXAMPLE_TARGET_NAME}
+                RUNTIME DESTINATION bin
+                )
+    endforeach(EXAMPLE_SOURCE ${EXAMPLE_SOURCES})
 endif()

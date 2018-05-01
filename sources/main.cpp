@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
 		}
 	}
 	bool exit = false;
-	while (!exit) 
+	while (!exit)
 	{
 		menu();
 		int choose;
@@ -66,7 +66,17 @@ int main(int argc, char* argv[])
 		}
 
 		case 4:
-			break;
+		{
+			cout << "Введие значение для нового узла: ";
+			int new_node;
+			correct_input(new_node);
+			if (tree.remove(new_node)) {
+				cout << "Узел был успешно удален из дерева" << endl;
+				break;
+			}
+			cout << "Узел не был найден в дереве" << endl;
+		}
+		break;
 		case 5:
 			break;
 		case 6:
@@ -102,7 +112,7 @@ int main(int argc, char* argv[])
 			break;
 		}
 	}
-    return 0;
+	return 0;
 }
 
 void menu()

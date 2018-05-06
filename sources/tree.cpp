@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <fstream>
 #include "tree.h"
 using namespace std;
 using namespace BSTree;
@@ -27,7 +28,10 @@ void Tree::clean(Node * &node) {
 	}
 }
 
-bool Tree::remove(int val) { 
+bool Tree::remove(int val){ 
+	if (root == nullptr) {
+		return false;
+	}
 	Node *p = root;
 	Node *temp=p;
 	if (p->data == val && p->right == nullptr) {
@@ -82,7 +86,7 @@ bool Tree::remove(int val) {
 					p = p->left;
 				}
 				temp->left = p->right; // было temp->left = nullptr;
-				before_delete_node->left = p;
+				p->data > before_delete_node->data ? before_delete_node->right = p : before_delete_node->left = p;
 				p->left = delete_node->left;
 				p->right = delete_node->right;
 				delete delete_node;
@@ -119,7 +123,6 @@ void Tree::opposite_bypass(Node *node) const {
 		cout << node->data << "|";
 	}
 }
-
 
 bool Tree::print(traversal_order order) const {
 	switch (order)
@@ -188,4 +191,12 @@ bool Tree::insert(int val) {
 	}
 	root = new Node{ val };
 	return true;
+}
+
+void Tree::save(ofstream & stream, Node *node){
+	if (node != nullptr) {
+		stream << node->data << " ";
+		save(stream,node->left);
+		save(stream,node->right);
+	}
 }

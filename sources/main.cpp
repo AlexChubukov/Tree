@@ -1,9 +1,11 @@
-// tree.cpp : Defines the entry point for the console application.
-//
+
+#ifdef WIN32
 #include <windows.h>
+#endif
 #include <iostream>
 #include <string>
 #include <limits> // ввод через int
+#include <fstream>
 #include "tree.h"
 using namespace std;
 using namespace BSTree;
@@ -78,8 +80,53 @@ int main(int argc, char* argv[])
 		}
 		break;
 		case 5:
+		{
+			cout << "Введите путь к файлу: ";
+			string way;
+			cin >> way;
+			ifstream temp(way);
+			bool exist = temp.is_open();
+			temp.close();
+			if (exist) {
+				cout << "Файл уже существует, перезаписать ? (Yes|No): ";
+				string answer;
+				cin >> answer;
+				if (answer == "y" || answer == "Y" || answer == "yes" || answer == "Yes" || answer == "YES") {
+					ofstream filew(way);
+					filew << tree;
+					filew.close();
+					break;
+				}
+				ofstream filew(way,ios_base::app);
+				filew << endl;
+				filew << tree;
+				filew.close();
+				break;
+			}
+			ofstream filew(way);
+			filew << tree;
+			filew.close();
+		}
 			break;
 		case 6:
+		{
+			cout << "Введите путь к файлу: ";
+			string way;
+			cin >> way;
+			ifstream file(way);
+			bool exist = file.is_open();
+			if (exist == 0) {
+				cout << "Файл с заданным путем не существует" << endl;
+				break;
+			}
+			tree.~Tree();
+			int buff;
+			while (!file.eof()) {
+				file >> buff;
+				tree.insert(buff);
+			}
+			cout << "Дерево было успешно загружено" << endl;
+		}
 			break;
 		case 7:
 			break;

@@ -1,6 +1,7 @@
 
 #ifndef tree_h
 #define tree_h
+#include <fstream>
 
 namespace BSTree
 {
@@ -34,6 +35,10 @@ namespace BSTree
 		void direct_bypass(Node *node) const;
 		void cross_bypass(Node *node) const;
 		void opposite_bypass(Node *node) const;
+		friend void operator << (std::ofstream& stream, Tree &q){
+			q.save(stream,q.root);
+		}
+		void save(std::ofstream & stream, Node *node);
 	};
 }
 #endif

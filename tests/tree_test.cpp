@@ -16,7 +16,7 @@ TEST_CASE("input")
 	while(getline(filer, s)){	
 	}
 	filer.close();
-	REQUIRE(s=="6 8 7 9 4 1 ");
+	REQUIRE(s=="6 4 1 8 7 9 ");
 }
 
 TEST_CASE("insert")

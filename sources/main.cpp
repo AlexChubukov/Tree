@@ -84,28 +84,11 @@ int main(int argc, char* argv[])
 			cout << "Введите путь к файлу: ";
 			string way;
 			cin >> way;
-			ifstream temp(way);
-			bool exist = temp.is_open();
-			temp.close();
-			if (exist) {
-				cout << "Файл уже существует, перезаписать ? (Yes|No): ";
-				string answer;
-				cin >> answer;
-				if (answer == "y" || answer == "Y" || answer == "yes" || answer == "Yes" || answer == "YES") {
-					ofstream filew(way);
-					filew << tree;
-					filew.close();
-					break;
-				}
-				ofstream filew(way,ios_base::app);
-				filew << endl;
-				filew << tree;
-				filew.close();
+			if (tree.save(way)) {
+				cout << "Дерево было успешно сохранено" << endl;
 				break;
 			}
-			ofstream filew(way);
-			filew << tree;
-			filew.close();
+			cout << "Что-то пошло не так" << endl;
 		}
 			break;
 		case 6:
@@ -113,22 +96,24 @@ int main(int argc, char* argv[])
 			cout << "Введите путь к файлу: ";
 			string way;
 			cin >> way;
-			ifstream file(way);
-			bool exist = file.is_open();
-			if (exist == 0) {
-				cout << "Файл с заданным путем не существует" << endl;
+			if (tree.load(way)) {
+				cout << "Дерево было успешно загружено" << endl;
 				break;
 			}
-			tree.~Tree();
-			int buff;
-			while (!file.eof()) {
-				file >> buff;
-				tree.insert(buff);
-			}
-			cout << "Дерево было успешно загружено" << endl;
+			cout << "Файл с заданным путем не существует" << endl;
 		}
 			break;
 		case 7:
+		{
+			cout << "Введите значение для поиска: ";
+			int val;
+			correct_input(val);
+			if (tree.exists(val)) {
+				cout << "Узел найден" << endl;
+				break;
+			}
+			cout << "Узел НЕ найден" << endl;
+		}
 			break;
 		case 8:
 		{

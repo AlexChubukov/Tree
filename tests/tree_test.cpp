@@ -15,7 +15,6 @@ TEST_CASE("input")
 	string s;
 	while(!filer.eof()){
 		filer >> s;
-		s=s+" ";
 	}
 	filer.close();
 	REQUIRE(s=="6 8 7 9 4 1 ");

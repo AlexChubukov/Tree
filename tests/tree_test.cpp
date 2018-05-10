@@ -1,5 +1,6 @@
 #include <catch.hpp>
 #include <sstream>
+#include <fstream>
 #include "tree.h"
 using namespace BSTree;
 

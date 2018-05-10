@@ -2,6 +2,7 @@
 #include <sstream>
 #include <fstream>
 #include "tree.h"
+using namespace std;
 using namespace BSTree;
 
 TEST_CASE("input")

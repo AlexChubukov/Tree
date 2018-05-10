@@ -13,8 +13,7 @@ TEST_CASE("input")
 	tree1.save("file1.txt");
 	ifstream filer("file1.txt");
 	string s;
-	while(getline(filer, s)){	
-	}
+	getline(filer, s);
 	filer.close();
 	REQUIRE(s=="6 4 1 8 7 9 ");
 }

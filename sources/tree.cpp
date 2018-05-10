@@ -177,7 +177,7 @@ void Tree::print(Node *node) const {
 		if (node == root) {
 			print(node->right);
 			cout << endl;
-			std::cout << node->data;
+			cout << node->data;
 			cout << endl << endl;
 			print(node->left);
 			return;

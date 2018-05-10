@@ -11,7 +11,7 @@ TEST_CASE("input")
 	Tree tree1{6,8,7,9,4,1};
 	tree1.save("file1.txt");
 	tree.load("file1.txt");
-	REQUIRE(tree.print(a)==tree1.print(a));
+	REQUIRE(tree.print(direct)==tree1.print(direct));
 	filew.close();
 }
 

@@ -8,11 +8,11 @@ TEST_CASE("input")
 	Tree tree;
 	REQUIRE(tree.get_root()==nullptr);
 	Tree tree1{6,8,7,9,4,1};
+	ofstream filew(file1);
 	tree1.save(file1);
-	REQUIRE(file1=="6 8 7 9 4 1 ")
-	tree=tree1;
-	tree.save(file2);
-	REQUIRE(file1==file2);
+	tree.load(file1);
+	REQUIRE(tree==tree1);
+	filew.close();
 }
 
 TEST_CASE("insert")

@@ -12,7 +12,6 @@ TEST_CASE("input")
 	tree1.save("file1.txt");
 	tree.load("file1.txt");
 	REQUIRE(tree.print(direct)==tree1.print(direct));
-	filew.close();
 }
 
 TEST_CASE("insert")

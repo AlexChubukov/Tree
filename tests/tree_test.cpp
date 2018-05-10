@@ -1,5 +1,6 @@
 #include <catch.hpp>
 #include <sstream>
+#include <fstream>
 #include "tree.h"
 using namespace std;
 using namespace BSTree;
@@ -10,8 +11,14 @@ TEST_CASE("input")
 	REQUIRE(tree.get_root()==nullptr);
 	Tree tree1{6,8,7,9,4,1};
 	tree1.save("file1.txt");
-	tree.load("file1.txt");
-	REQUIRE(tree.print(direct)==tree1.print(direct));
+	ifstream filer("file1.txt");
+	string s;
+	while(!filer.eof()){
+		filer >> s;
+		s=s+" ";
+	}
+	filer.close();
+	REQUIRE(s=="6 8 7 9 4 1 ");
 }
 
 TEST_CASE("insert")

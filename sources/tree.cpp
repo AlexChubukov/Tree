@@ -15,7 +15,12 @@ Node* Tree::get_root() const {
 }
 
 Tree::Tree() : root(nullptr) {}
-BSTree::Tree::Tree(std::initializer_list<int> list){
+
+Tree::Tree(std::initializer_list<int> list){
+	if(list.size()==0){
+		root=nullptr;
+		return;
+	}
 	for (auto& item : list) {
 		this->insert(item);
 	}

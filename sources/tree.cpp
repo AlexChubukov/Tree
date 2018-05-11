@@ -17,7 +17,7 @@ Node* Tree::get_root() const {
 Tree::Tree() : root(nullptr) {}
 
 Tree::Tree(std::initializer_list<int> list){
-	this->Tree();
+	Tree();
 	for (auto& item : list) {
 		this->insert(item);
 	}

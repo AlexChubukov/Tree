@@ -33,7 +33,8 @@ namespace BSTree
 		void print() const;
 		bool save(const std::string &path);
 		bool load(const std::string& path);
-		friend auto operator << (std::ostream& stream, Tree &q)->std::ostream & { // Надо const Tree &q!!!
+		//friend auto operator << (std::ostream& stream, const Tree &q)->std::ostream &;
+		friend auto operator << (std::ostream& stream, const Tree &q)->std::ostream & { // Надо const Tree &q!!!
 			q.save(stream, q.root);
 			return stream;
 		}

@@ -15,9 +15,7 @@ Node* Tree::get_root() const {
 }
 
 Tree::Tree() : root(nullptr) {}
-
-Tree::Tree(std::initializer_list<int> list){
-	Tree();
+BSTree::Tree::Tree(std::initializer_list<int> list){
 	for (auto& item : list) {
 		this->insert(item);
 	}
@@ -37,6 +35,7 @@ Tree::Tree(const Tree &tree)
 }
 
 auto Tree::operator=(const Tree &q)-> Tree &  {
+	Tree();
 	this->~Tree();
 	this->copy_insert(q.root);
 	return *this;
@@ -179,7 +178,7 @@ void Tree::print(Node *node) const {
 		if (node == root) {
 			print(node->right);
 			cout << endl;
-			cout << node->data;
+			std::cout << node->data;
 			cout << endl << endl;
 			print(node->left);
 			return;
@@ -272,3 +271,8 @@ bool Tree::exists(int val) const {
 	}
 	return false;
 }
+
+// auto BSTree::operator << (std::ostream& stream, const Tree &q)->std::ostream & {
+	// q.save(stream, q.root);
+	// return stream;
+// }

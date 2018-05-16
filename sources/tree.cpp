@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include "tree.h"
+
 using namespace std;
 using namespace BSTree;
 
@@ -10,12 +11,16 @@ Node::Node(int val) : left(nullptr), right(nullptr) {
 	data = val;
 }
 
-Node* Tree::get_root() const {
-	return root;
+bool Tree::empty() {
+	if (root == nullptr) {
+		return true;
+	}
+	return false;
 }
 
 Tree::Tree() : root(nullptr) {}
-BSTree::Tree::Tree(std::initializer_list<int> list){
+
+Tree::Tree(std::initializer_list<int> list) : Tree() {
 	for (auto& item : list) {
 		this->insert(item);
 	}
@@ -29,15 +34,13 @@ void Tree::copy_insert(Node * node){
 	}
 }
 
-Tree::Tree(const Tree &tree)
-{
+Tree::Tree(const Tree &tree) {
 	copy_insert(tree.root);
 }
 
-auto Tree::operator=(const Tree &q)-> Tree &  {
-	Tree();
-	this->~Tree();
-	this->copy_insert(q.root);
+auto Tree::operator=(const Tree &tree) -> Tree &  {
+	Tree tree_temp(tree);
+	this->swap(tree_temp);
 	return *this;
 }
 
@@ -166,29 +169,29 @@ bool Tree::print(traversal_order order) const {
 }
 
 void Tree::print() const {
-	print(root);
+	print(root,0);
 }
 
-void Tree::print(Node *node) const {
+void Tree::print(Node * node, int depth) const {
 	if (root == nullptr) {
 		cout << "Дерево пусто!" << endl;
 	}
+	int temp_depth = depth;
 	if (node != nullptr) {
-		static int count_rec = 0;
 		if (node == root) {
-			print(node->right);
+			print(node->right, temp_depth);
 			cout << endl;
-			std::cout << node->data;
-			cout << endl << endl;
-			print(node->left);
+			cout << node->data;
+			cout << endl;
+			print(node->left, temp_depth);
 			return;
 		}
-		count_rec++;
-		print(node->right);
-		for (int i = 0; i < count_rec; i++)  cout << "   ";
+		temp_depth++;
+		print(node->right, temp_depth);
+		for (int i = 0; i < temp_depth; i++)  cout << "   ";
 		cout << "- " << node->data << endl;
-		print(node->left);
-		count_rec--;
+		print(node->left,temp_depth);
+		temp_depth--;
 		return;
 	}
 }
@@ -252,12 +255,13 @@ bool Tree::load(const string & path) {
 	if (file.is_open() == 0) {
 		return false;
 	}
-	this->~Tree();
 	int buff;
+	Tree temp_tree;
 	while (!file.eof()) {
 		file >> buff;
-		this->insert(buff);
+		temp_tree.insert(buff);
 	}
+	this->swap(temp_tree);
 	return true;
 }
 
@@ -272,7 +276,8 @@ bool Tree::exists(int val) const {
 	return false;
 }
 
-// auto BSTree::operator << (std::ostream& stream, const Tree &q)->std::ostream & {
-	// q.save(stream, q.root);
-	// return stream;
-// }
+void Tree::swap(Tree &tree) {
+	Node *temp = this->root;
+	this->root = tree.root;
+	tree.root = temp;
+}

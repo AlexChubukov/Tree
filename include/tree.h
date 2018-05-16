@@ -17,19 +17,18 @@ namespace BSTree
 		int data;
 		Node(int val);
 	};
-	
+
 	class Tree {
 		Node *root;
 	public:
+		bool empty();
 		Tree();
 		Tree(std::initializer_list<int> list);
 		Tree(const Tree &tree);
 		bool insert(int val);
 		bool exists(int val) const;
 		bool remove(int val);
-		Node* get_root() const;
-		void clean(Node * &node) const;
-		bool print(traversal_order order)const;
+		bool print(traversal_order order) const;
 		void print() const;
 		bool save(const std::string &path);
 		bool load(const std::string& path);
@@ -38,10 +37,12 @@ namespace BSTree
 			q.save(stream, q.root);
 			return stream;
 		}
-		auto operator=(const Tree&)->Tree& ;
+		auto operator=(const Tree&) ->Tree& ;
+		void swap(Tree& tree);
 		~Tree();
 	private:
-		void print(Node *node) const;
+		void clean(Node * &node) const;
+		void print(Node *node, int level) const;
 		void direct_bypass(Node *node) const;
 		void cross_bypass(Node *node) const;
 		void opposite_bypass(Node *node) const;

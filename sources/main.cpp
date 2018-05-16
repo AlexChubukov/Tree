@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
 			break;
 		case 2:
 		{
-			if (tree.get_root() == nullptr) {
+			if (tree.empty()) {
 				cout << "Дерево пусто" << endl;
 				break;
 			}
@@ -53,11 +53,6 @@ int main(int argc, char* argv[])
 				char temp = 0;
 				cin >> temp;
 				is_correct = tree.print((traversal_order)temp);
-				//temp=NULL;
-				// char p;
-				// while(!cin){
-				 // std::cin.get(p);	
-				// }
 			}
 		}
 		break;

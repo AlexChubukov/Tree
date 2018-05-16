@@ -8,7 +8,7 @@ using namespace BSTree;
 TEST_CASE("input")
 {
 	Tree tree;
-	REQUIRE(tree.get_root()==nullptr);
+	REQUIRE(tree.empty()==true);
 	Tree tree1{6,8,7,9,4,1};
 	tree1.save("file1.txt");
 	ifstream filer("file1.txt");

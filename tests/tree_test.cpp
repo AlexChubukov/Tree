@@ -32,7 +32,7 @@ TEST_CASE("input")
 
 TEST_CASE("insert")
 {
-	Tree tree;
+	Tree<int> tree;
 	tree.insert(6);
 	tree.insert(2);
 	tree.insert(8);

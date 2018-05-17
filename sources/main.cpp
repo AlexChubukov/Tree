@@ -11,7 +11,8 @@ using namespace std;
 using namespace BSTree;
 
 void menu();
-void correct_input(int &choose);
+template <typename T>
+void correct_input(T &choose);
 
 int main(int argc, char* argv[])
 {
@@ -19,7 +20,7 @@ int main(int argc, char* argv[])
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 #endif
-	Tree tree;
+	Tree<int> tree;
 	if (argc > 1) {
 		int i = 0;
 		while (argc - 1 != i) {
@@ -161,7 +162,8 @@ void menu()
 	cout << "8. Завершить работу программы" << endl;
 }
 
-void correct_input(int &choose) {
+template <typename T>
+void correct_input(T &choose) {
 	bool good = true;
 	do {
 		cin >> choose;

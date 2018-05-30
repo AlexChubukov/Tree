@@ -62,7 +62,7 @@ TEST_CASE("Existence of node")
     REQUIRE(tree.exists(100) == false);
 }
 
-EST_CASE("Delete element")
+TEST_CASE("Delete element")
 {
   Tree<int> tree{ 17,4,56,34,12,7,12,89,0,76,2,5,15,19};
   tree.remove(17);

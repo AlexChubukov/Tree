@@ -14,8 +14,7 @@ void menu();
 template <typename T>
 void correct_input(T &choose);
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
 #ifdef WIN32
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
@@ -42,7 +41,7 @@ int main(int argc, char* argv[])
 		case 2:
 		{
 			if (tree.empty()) {
-				cout << "Дерево пусто" << endl;
+				cerr << "Дерево пусто" << endl;
 				break;
 			}
 			bool is_correct = false;
@@ -51,7 +50,7 @@ int main(int argc, char* argv[])
 				cout << "a. Прямой обход" << endl;
 				cout << "b. Поперечный обход" << endl;
 				cout << "c. Обратный обход " << endl;
-				char temp = 0;
+				char temp;
 				cin >> temp;
 				is_correct = tree.print((traversal_order)temp);
 			}
@@ -63,7 +62,7 @@ int main(int argc, char* argv[])
 			cout << "Введите значение для нового узла: ";
 			correct_input(node_value);
 			if (!tree.insert(node_value)) {
-				cout << "Узел уже существует" << endl;
+				cerr << "Узел уже существует" << endl;
 			}
 			break;
 		}
@@ -85,11 +84,26 @@ int main(int argc, char* argv[])
 			cout << "Введите путь к файлу: ";
 			string way;
 			cin >> way;
-			if (tree.save(way)) {
+			ifstream temp(way);
+			bool exist = temp.is_open(), successfull = false;
+			temp.close();
+			if (exist) {
+				cout << "Файл уже существует, перезаписать ? (Yes|No): ";
+				string answer;
+				cin >> answer;
+				if (answer == "y" || answer == "Y" || answer == "yes" || answer == "Yes" || answer == "YES") {
+					successfull = tree.save(way, true);
+				} else {
+					successfull = tree.save(way, false);
+				}
+			} else {
+				successfull = tree.save(way, false);
+			}
+			if (successfull) {
 				cout << "Дерево было успешно сохранено" << endl;
 				break;
 			}
-			cout << "Что-то пошло не так" << endl;
+			cerr << "Не хватает места на диске" << endl;
 		}
 			break;
 		case 6:
@@ -101,7 +115,7 @@ int main(int argc, char* argv[])
 				cout << "Дерево было успешно загружено" << endl;
 				break;
 			}
-			cout << "Файл с заданным путем не существует" << endl;
+			cerr << "Файл с заданным путем не существует" << endl;
 		}
 			break;
 		case 7:

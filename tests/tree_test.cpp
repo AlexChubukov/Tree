@@ -97,6 +97,6 @@ TEST_CASE("Swap") {
 	string s7;
 	getline(filer7, s7);
 	filer7.close();
-	REQUIRE(s7=="4 3 2 1");
+	REQUIRE(s7=="4 3 2 1 ");
 }
 

@@ -55,9 +55,48 @@ TEST_CASE("insert")
 	REQUIRE( tree.insert(3)==0);
 }
 
-TEST_CASE("Existence of node") {
+TEST_CASE("Existence of node") 
+{
     BSTree::Tree<int> tree = { 8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15 };
     REQUIRE(tree.exists(8) == true);
     REQUIRE(tree.exists(100) == false);
+}
+
+EST_CASE("Delete element")
+{
+  Tree<int> tree{ 17,4,56,34,12,7,12,89,0,76,2,5,15,19};
+  tree.remove(17);
+  
+  tree.save("file5.txt",false);
+	ifstream filer5("file5.txt");
+	string s5;
+	getline(filer5, s5);
+	filer5.close();
+	REQUIRE(s5=="19 4 0 2 12 7 5 15 56 34 89 76 ");
+	
+	tree.remove(12);
+	tree.save("file6.txt",false);
+	ifstream filer6("file6.txt");
+	string s6;
+	getline(filer6, s6);
+	filer6.close();
+	REQUIRE(s6=="19 4 0 2 15 7 5 56 34 89 76 ");
+	
+	REQUIRE(tree.remove(100)==false);
+	
+}
+
+TEST_CASE("Swap") {
+    Tree<int> tree{1, 2, 3, 4};
+    Tree<int> tree1{4, 3, 2, 1};
+
+    tree.swap(tree1);
+
+    tree.save("file7.txt",false);
+	ifstream filer7("file7.txt");
+	string s7;
+	getline(filer7, s7);
+	filer7.close();
+	REQUIRE(s7=="4 3 2 1");
 }
 

@@ -25,24 +25,19 @@
 ```
 **Формат запуска программы через командную строку имеет следующий вид:**
 ```ShellSession
-$ ./bstree <item1> <item2> <item3> …
+$ ./main <item1> <item2> <item3> …
 ```
 Значениями элементов входных данных являются **знаковые целые числа**.
 
 ##Сборка проекта
 ***
-Чтобы запустить проект, необходимо клонировать репозиторий:
+Чтобы запустить проект, необходимо выполнить ряд следующих команд:
 ```ShellSession
 $ git clone https://github.com/AlexDeveloper24/Tree <ваш репозиторий>
-```
-Далее необходимо запустить cmake 
-```ShellSession
-cmake -H. -B_build
-cmake --build _build
-```
-В итоге командой вы запустите проект бинарного дерева.
-```ShellSession
-./_build/BSTree <item1> <item2> <item3> …
+$ cmake -H. -B_build -DCMAKE_INSTALL_PREFIX=install
+$ cmake --build _build --target install
+$ cd _build
+$ ./main <item1> <item2> <item3> …
 ```
 
 

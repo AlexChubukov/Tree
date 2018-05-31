@@ -1,47 +1,48 @@
-cmake_minimum_required(VERSION 3.3)
+cmake_minimum_required(VERSION 3.2)
 
-include("cmake/HunterGate.cmake")
-HunterGate(
-    URL "https://github.com/ruslo/hunter/archive/v0.19.123.tar.gz"
-    SHA1 "57d07480686f82ddc916a5980b4f2a18e5954c2b"
-)
 
-project(BSTree)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-option(BUILD_TESTS "Build tests" OFF)
-option(BUILD_EXAMPLES "Build Examples" OFF)
+option(BUILD_EXAMPLES "Build examples" OFF)
+option(BUILD_TESTS "Build	 tests" OFF)
+option(BUILD_BENCHMARK "Build benchmark" OFF)
 
-set(${PROJECT_NAME}_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/sources/tree.cpp")
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/)
+project(BStree)
 
-add_library(${PROJECT_NAME} ${${PROJECT_NAME}_SOURCES})
+add_library(BStree STATIC ${CMAKE_CURRENT_SOURCE_DIR}/sources/tree.cpp)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-if(BUILD_TESTS)
-  hunter_add_package(Catch)
-  find_package(Catch CONFIG REQUIRED)
 
-  enable_testing()
+add_executable(main ${CMAKE_CURRENT_SOURCE_DIR}/sources/main.cpp)
+target_link_libraries(main BStree)
 
-  file(GLOB ${PROJECT_NAME}_TEST_SOURCES tests/*.cpp)
-  add_executable(tests ${${PROJECT_NAME}_TEST_SOURCES})
-  target_link_libraries(tests ${PROJECT_NAME} Catch::Catch )
-
-  add_test(NAME test_name COMMAND tests "-s" "-r" "compact" "--use-colour" "yes")
-endif()
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/ DESTINATION include)
+install(EXPORT BStree-config DESTINATION cmake)
 
 if(BUILD_EXAMPLES)
-    file(GLOB EXAMPLE_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/examples/*.cpp")
-    foreach(EXAMPLE_SOURCE ${EXAMPLE_SOURCES})
-        get_filename_component(EXAMPLE_NAME ${EXAMPLE_SOURCE} NAME_WE)
-        set(EXAMPLE_TARGET_NAME example_${EXAMPLE_NAME})
-        add_executable(${EXAMPLE_TARGET_NAME} ${EXAMPLE_SOURCE})
-        target_link_libraries(${EXAMPLE_TARGET_NAME} ${PROJECT_NAME})
-        set_target_properties(${EXAMPLE_TARGET_NAME} PROPERTIES OUTPUT_NAME ${EXAMPLE_NAME})
-        install(TARGETS ${EXAMPLE_TARGET_NAME}
-                RUNTIME DESTINATION bin
-                )
-    endforeach(EXAMPLE_SOURCE ${EXAMPLE_SOURCES})
+  file(GLOB EXAMPLE_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/examples/*.cpp")
+  foreach(EXAMPLE_SOURCE ${EXAMPLE_SOURCES})
+    get_filename_component(EXAMPLE_NAME ${EXAMPLE_SOURCE} NAME_WE)
+    add_executable(${EXAMPLE_NAME} ${EXAMPLE_SOURCE})
+    target_link_libraries(${EXAMPLE_NAME} BStree)
+    install(TARGETS ${EXAMPLE_NAME}
+      RUNTIME DESTINATION bin
+    )
+  endforeach(EXAMPLE_SOURCE ${EXAMPLE_SOURCES})
+endif()
+
+install(TARGETS BStree
+    EXPORT BStree-config
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+)
+
+if(BUILD_TESTS)
+enable_testing()
+file(GLOB ${PROJECT_NAME}_TEST_SOURCES tests/*.cpp)
+add_executable(check ${${PROJECT_NAME}_TEST_SOURCES})
+target_link_libraries(check ${PROJECT_NAME} ${DEPENDS_LIBRARIES})
+add_test(NAME check COMMAND check "-s" "-r" "compact" "--use-colour" "yes") 
 endif()
